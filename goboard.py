@@ -52,8 +52,10 @@ class Board:
                 stones = self._find_group(r, c)
 
                 if not self._find_liberties(stones):
-                    self.captured[player] += len(stones)
+                    print stones
                     for stone in stones:
+                        if self.board[stone] != 0:
+                            self.captured[player] += 1
                         self.board[stone] = 0
 
     def get_player_stones(self, player):

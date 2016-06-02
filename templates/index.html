@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<style>
+
+body > div
+{
+    float: left;
+    display: inline-block;
+    margin: 0.5em;
+}
+
+#controls > div > *
+{
+    width: 100px;
+}
+
+</style>
+</head>
+<body>
+    <div id="controls">
+        <div>
+            Board Size:<br />
+            <input id="board_size" value="19" ></input>
+        </div>
+        <div>
+            History: <br />
+            <textarea id="history" rows="30" cols="20"></textarea>
+        </div>
+        <div>
+            <button onclick="gen_board();">Generate</button>
+        </div>
+    </div>
+    <div id="canvas_block">
+        <canvas id="canvas" style="border:2px solid black"></canvas>
+    </div>
+
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        var DOMURL = window.URL || window.webkitURL || window;
+
+        var img = new Image();
+
+        function gen_board()
+        {
+            var history = document.getElementById("history").value;
+            var board_size = document.getElementById("board_size").value;
+            img.src = "/" + board_size + "/_" + history + ".svg";
+
+            img.onload = function() {
+                console.log(img.src);
+
+                var w = img.width + 7;
+                var h = img.height;
+                var factor = 1.3;
+                canvas.width = factor*w;
+                canvas.height = factor*h;
+                ctx.drawImage(img, 0, 0, w, h, 0, 0, factor*w, factor*h);
+            }
+        }
+    </script>
+</body>

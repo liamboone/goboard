@@ -1,7 +1,7 @@
 import re
-from flask import Flask, render_template
+from flask import Flask, render_template, send_file
 from gosvg import board_svg, gen_board
-import subprocess as sp
+from cStringIO import StringIO
 
 application = Flask(__name__)
 
@@ -10,9 +10,17 @@ def make_board(board_size, history):
     moves = map(lambda (a,b): a if b == '' else b, moves)
     w, h, svg = gen_board(moves, int(board_size))
 
-    return render_template('view.html', svg=svg)
+    svg_io = StringIO()
+    svg_io.write(str(svg))
+    svg_io.seek(0)
 
-application.add_url_rule('/<board_size>/<history>', 'hello', make_board)
+    return send_file(svg_io, mimetype="image/svg+xml")
+
+def index():
+    return render_template('index.html')
+
+application.add_url_rule('/<board_size>/<history>', 'board', make_board)
+application.add_url_rule('/', 'index', index)
 
 if __name__ == "__main__":
     application.debug = True

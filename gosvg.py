@@ -55,8 +55,6 @@ def gen_board(history, board_width):
     blacks = [(r+1, c+1) for r, c in board.get_player_stones(1)]
     whites = [(r+1, c+1) for r, c in board.get_player_stones(2)]
 
-    print blacks, whites
-
     black_captures = board.get_player_captures(1)
     white_captures = board.get_player_captures(2)
     
